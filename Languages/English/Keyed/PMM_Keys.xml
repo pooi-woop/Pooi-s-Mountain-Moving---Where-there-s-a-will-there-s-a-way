@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <PMM_Designator_RemoveThickRoof_Label>Remove thick roof</PMM_Designator_RemoveThickRoof_Label>
+  <PMM_Designator_RemoveThickRoof_Desc>Designate thick rock roofs (overhead mountain) to be removed by colonists. Requires an extremely large amount of work per tile; progress is saved, so pawns resume after eating, sleeping or reloading.</PMM_Designator_RemoveThickRoof_Desc>
+
+  <PMM_Message_RoofRemoved>A thick roof has been removed.</PMM_Message_RoofRemoved>
+
+  <PMM_Setting_WorkAmount>Work per roof tile: {0} ticks (~{1} in-game days at speed 1.0)</PMM_Setting_WorkAmount>
+  <PMM_Setting_Notify>Notify when a thick roof is removed</PMM_Setting_Notify>
+
+</LanguageData>

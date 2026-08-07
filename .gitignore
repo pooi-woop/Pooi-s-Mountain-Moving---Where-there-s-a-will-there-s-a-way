@@ -1,0 +1,7 @@
+# 构建中间产物/输出（勿提交）
+Source/**/bin/
+Source/**/obj/
+*.user
+
+# 编译出的 DLL 由 build.bat 生成到 Assemblies（本仓库默认不提交二进制）
+Assemblies/*.dll

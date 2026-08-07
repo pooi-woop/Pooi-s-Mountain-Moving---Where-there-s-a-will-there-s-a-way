@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- 把我们的设计器类追加到原版"命令(Orders)"面板的 specialDesignatorClasses，
+       这样它就会出现在 建筑师 → 命令 里，无需 Harmony。 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/DesignationCategoryDef[defName="Orders"]/specialDesignatorClasses</xpath>
+    <value>
+      <li>PMM.MountainMoving.Designator_RemoveThickRoof</li>
+    </value>
+  </Operation>
+
+</Patch>

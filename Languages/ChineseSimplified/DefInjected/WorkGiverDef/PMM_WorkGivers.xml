@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- WorkGiverDef：工作优先级面板/指派提示用语 -->
+  <PMM_RemoveThickRoof.label>移除厚岩顶</PMM_RemoveThickRoof.label>
+  <PMM_RemoveThickRoof.verb>移除厚岩顶</PMM_RemoveThickRoof.verb>
+  <PMM_RemoveThickRoof.gerund>移除厚岩顶</PMM_RemoveThickRoof.gerund>
+
+</LanguageData>

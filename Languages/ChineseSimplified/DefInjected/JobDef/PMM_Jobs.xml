@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- JobDef 的 reportString：殖民者状态栏显示"正在……" -->
+  <PMM_RemoveThickRoofJob.reportString>正在移除厚岩顶。</PMM_RemoveThickRoofJob.reportString>
+
+</LanguageData>

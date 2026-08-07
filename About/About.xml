@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <!-- 全局唯一 ID，全小写无空格。发布前可自行改成你的 steamid.modname -->
+  <packageId>pooi.mountainmoving</packageId>
+
+  <name>Pooi's Mountain Moving</name>
+  <author>Pooi</author>
+
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
+
+  <description>
+愚公移山 —— 让殖民者能够以极高的工作量移除厚岩顶（山体头顶 / overhead mountain）。
+
+在「建筑师 → 命令」面板中新增一个「移除厚岩顶」区域指令。被指派的厚岩顶会由从事"建造"工作的殖民者以极高的工作量逐格凿除（默认每格约 2 个游戏日，可在 Mod 设置中调整，最高约 10 个游戏日）。进度会按格子保存，吃饭、睡觉、读档后都会接着上次的进度继续凿，不会前功尽弃。
+
+Allows colonists to remove thick rock roofs (overhead mountain) through an extremely large amount of work. Adds a "Remove thick roof" area designator under Architect → Orders. Work progress is saved per-cell, so pawns resume where they left off after eating, sleeping or reloading.
+  </description>
+</ModMetaData>

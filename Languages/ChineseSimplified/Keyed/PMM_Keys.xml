@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <PMM_Designator_RemoveThickRoof_Label>移除厚岩顶</PMM_Designator_RemoveThickRoof_Label>
+  <PMM_Designator_RemoveThickRoof_Desc>指派殖民者移除厚岩顶（山体头顶）。每格需要极高的工作量；进度会被保存，吃饭、睡觉或读档后都会接着上次的进度继续凿。</PMM_Designator_RemoveThickRoof_Desc>
+
+  <PMM_Message_RoofRemoved>一处厚岩顶已被移除。</PMM_Message_RoofRemoved>
+
+  <PMM_Setting_WorkAmount>每格岩顶工作量：{0} tick（速度 1.0 时约 {1} 个游戏日）</PMM_Setting_WorkAmount>
+  <PMM_Setting_Notify>移除完成时发送提示</PMM_Setting_Notify>
+
+</LanguageData>

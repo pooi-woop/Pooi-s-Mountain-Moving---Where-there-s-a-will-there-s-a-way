@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>PMM.MountainMoving</AssemblyName>
+    <RootNamespace>PMM.MountainMoving</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+
+    <!-- RimWorld 安装目录。build.bat 会自动探测并通过 /p:RimWorldPath= 传入；
+         也可以在这里直接写死，或用环境变量 RIMWORLD_PATH。 -->
+    <RimWorldPath Condition="'$(RimWorldPath)' == ''">$(MSBuildThisFileDirectory)..\..\..\RimWorldPathPlaceholder</RimWorldPath>
+    <RimWorldPath Condition="'$(RimWorldPath)' == '' and '$(RIMWORLD_PATH)' != ''">$(RIMWORLD_PATH)</RimWorldPath>
+  </PropertyGroup>
+
+  <!-- 让 net472 在没有安装对应 Targeting Pack 的机器上也能用 .NET SDK 直接编译
+       （首次编译需联网从 NuGet 拉取参考程序集）。若用 VS 的 MSBuild 且无网络，可删除此项。 -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- 引用 RimWorld 自带 DLL。Private=false 表示不把它们打包进输出（遵守版权，只引用）。 -->
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

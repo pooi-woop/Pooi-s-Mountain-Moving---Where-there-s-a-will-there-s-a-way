@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- 移除厚岩顶的工作。driverClass 指向 C# 的 JobDriver。 -->
+  <JobDef>
+    <defName>PMM_RemoveThickRoofJob</defName>
+    <driverClass>PMM.MountainMoving.JobDriver_RemoveThickRoof</driverClass>
+    <reportString>removing thick roof.</reportString>
+  </JobDef>
+
+</Defs>

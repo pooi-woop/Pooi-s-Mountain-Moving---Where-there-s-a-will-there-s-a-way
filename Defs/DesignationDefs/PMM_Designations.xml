@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- 厚岩顶移除的"指派标记"。targetType=Cell 表示按格子指派。
+       texturePath 指向 Textures/PMM/Designations/RemoveThickRoof.png -->
+  <DesignationDef>
+    <defName>PMM_RemoveThickRoof</defName>
+    <texturePath>PMM/Designations/RemoveThickRoof</texturePath>
+    <targetType>Cell</targetType>
+  </DesignationDef>
+
+</Defs>

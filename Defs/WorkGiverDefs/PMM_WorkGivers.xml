@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- 把移除厚岩顶挂到"建造(Construction)"工作类型上，
+       与原版"移除屋顶"一致：勾选了建造的殖民者会自动来凿。 -->
+  <WorkGiverDef>
+    <defName>PMM_RemoveThickRoof</defName>
+    <label>remove thick roofs</label>
+    <giverClass>PMM.MountainMoving.WorkGiver_RemoveThickRoof</giverClass>
+    <workType>Construction</workType>
+    <priorityInType>110</priorityInType>
+    <verb>remove thick roof</verb>
+    <gerund>removing thick roof</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+</Defs>
