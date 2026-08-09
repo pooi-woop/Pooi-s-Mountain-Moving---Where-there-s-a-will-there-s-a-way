@@ -22,8 +22,8 @@ namespace PMM.MountainMoving
             soundSucceeded = SoundDefOf.Designate_Mine;
         }
 
-        // 2 = 可拖拽出矩形区域
-        public override int DraggableDimensions => 2;
+        // RimWorld 1.5+ 移除了 DraggableDimensions，Designator_Cells 默认支持 2D 拖拽
+        // 不需要 override DraggableDimensions
 
         public override bool DragDrawMeasurements => true;
 
