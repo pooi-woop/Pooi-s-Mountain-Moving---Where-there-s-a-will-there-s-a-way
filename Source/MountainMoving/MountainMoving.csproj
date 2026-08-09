@@ -45,3 +45,241 @@
   </ItemGroup>
 
 </Project>
+<!-- <!-- 
+  项目文件（.csproj）是 C# 项目的核心配置文件
+  SDK 风格的项目格式是 .NET Core/5+ 引入的简洁格式
+  Microsoft.NET.Sdk 是基础的 .NET SDK，包含编译、打包等核心功能
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- 
+    PropertyGroup：属性组，里面定义的是各种编译参数和变量
+    这些属性会传递给 MSBuild 编译引擎
+  -->
+  <PropertyGroup>
+    
+    <!-- 
+      TargetFramework：目标框架
+      net472 = .NET Framework 4.7.2
+      RimWorld 1.4/1.5 版本基于 Unity 2022 构建，使用 .NET Framework 4.7.2
+      必须匹配游戏使用的框架版本，否则无法引用游戏 DLL
+    -->
+    <TargetFramework>net472</TargetFramework>
+    
+    <!-- 
+      AssemblyName：编译后输出的程序集（DLL）文件名
+      最终会生成 PMM.MountainMoving.dll
+      通常与模组 ID 保持一致
+    -->
+    <AssemblyName>PMM.MountainMoving</AssemblyName>
+    
+    <!-- 
+      RootNamespace：根命名空间
+      新建 .cs 文件时，Visual Studio 会自动使用这个作为默认命名空间
+      代码中 using PMM.MountainMoving; 就可以引用这个命名空间下的类
+    -->
+    <RootNamespace>PMM.MountainMoving</RootNamespace>
+    
+    <!-- 
+      LangVersion：C# 语言版本
+      7.3 是 C# 7.3 版本，支持：
+      - 元组（Tuple）
+      - 模式匹配（Pattern Matching）
+      - 本地函数（Local Function）
+      不支持 C# 8.0+ 的可空引用类型、异步流等特性
+      RimWorld 本身的代码就是用 C# 7.3 编写的
+    -->
+    <LangVersion>7.3</LangVersion>
+    
+    <!-- 
+      Nullable：可空引用类型检查
+      disable = 关闭此功能
+      在 C# 8.0+ 中，引用类型默认不可为空，但老代码没有这个约束
+      关闭可以让代码兼容旧风格，避免大量警告
+    -->
+    <Nullable>disable</Nullable>
+    
+    <!-- 
+      ImplicitUsings：隐式 using 指令
+      disable = 不自动导入全局 using
+      如果启用，会自动导入 System、System.Collections.Generic 等常用命名空间
+      老项目习惯显式写出所有 using，所以这里关闭
+    -->
+    <ImplicitUsings>disable</ImplicitUsings>
+    
+    <!-- 
+      AppendTargetFrameworkToOutputPath：输出路径追加目标框架名
+      true = 输出到 bin\Debug\net472\ 而不是 bin\Debug\
+      因为一个项目可能针对多个框架编译（如 net48、net6.0），这可以区分不同版本的输出
+    -->
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    
+    <!-- 
+      GenerateAssemblyInfo：自动生成程序集信息
+      true = 自动创建 AssemblyInfo.cs 并填充版本号、公司名等信息
+      这些信息会嵌入到 DLL 的文件属性中
+    -->
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+
+    <!-- ==================== 自定义属性：RimWorld 路径 ==================== -->
+    
+    <!-- 
+      定义 RimWorldPath 变量，用于定位游戏安装目录
+      Condition 是条件判断，'$(RimWorldPath)' == '' 表示变量还没有被赋值
+      
+      $(MSBuildThisFileDirectory)：当前项目文件所在的目录（绝对路径）
+      ..\..\..\ 表示向上三级目录
+      整个路径指向一个叫 RimWorldPathPlaceholder 的文件夹（占位用）
+      这是默认值，通常会被覆盖
+    -->
+    <RimWorldPath Condition="'$(RimWorldPath)' == ''">$(MSBuildThisFileDirectory)..\..\..\RimWorldPathPlaceholder</RimWorldPath>
+    
+    <!-- 
+      第二个条件：如果上一步（占位路径）仍然是空的（或者被清空了）
+      并且环境变量 RIMWORLD_PATH 有值，则使用环境变量的值
+      $(RIMWORLD_PATH) 可以读取系统的环境变量
+      
+      这样设计是为了适应不同的使用场景：
+      1. 构建脚本（build.bat）可以通过命令行参数传入
+      2. 用户可以在系统中设置环境变量
+      3. 都没有的话就用默认占位路径
+    -->
+    <RimWorldPath Condition="'$(RimWorldPath)' == '' and '$(RIMWORLD_PATH)' != ''">$(RIMWORLD_PATH)</RimWorldPath>
+    
+    <!-- 
+      注意：如果以上三种方式都没有提供有效路径，
+      编译时会因为找不到引用的 DLL 而报错
+    -->
+    
+  </PropertyGroup>
+
+  <!-- 
+    ItemGroup：项组，用于定义项目引用的各种资源
+    这里定义的是 NuGet 包引用
+  -->
+  <ItemGroup>
+    
+    <!-- 
+      PackageReference：NuGet 包引用
+      Include 指定包 ID，Version 指定版本号
+      
+      Microsoft.NETFramework.ReferenceAssemblies 是 .NET Framework 的参考程序集包
+      作用：当开发机没有安装 .NET Framework 4.7.2 的 Targeting Pack 时，
+      通过 NuGet 下载所需的参考程序集，让编译能够进行
+      
+      这对持续集成（CI）环境特别有用，因为构建服务器可能没有安装完整的 .NET Framework SDK
+      
+      PrivateAssets="all" 表示这个包只在编译时使用
+      - 不会作为依赖项传递给引用此项目的其他项目
+      - 不会打包到最终的输出中
+      - 不会出现在 nuget 依赖树中
+      
+      如果使用 Visual Studio 且已安装完整 SDK，可以删除此项
+    -->
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    
+  </ItemGroup>
+
+  <!-- 
+    ItemGroup：另一个项组
+    这里定义的是对本地 DLL 文件的引用（而不是 NuGet 包）
+  -->
+  <ItemGroup>
+    
+    <!-- 
+      Reference：引用一个本地 DLL 文件
+      
+      注意：这里引用的是 RimWorld 游戏自带的 DLL
+      这些文件位于 RimWorld 安装目录的 Managed 文件夹下
+      是 Unity 游戏的标准文件结构
+      
+      HintPath：告诉编译器去哪里找这个 DLL
+      使用 $(RimWorldPath) 变量来动态定位
+      
+      Private="false"：最关键的一点！
+      - true（默认值）：会把引用的 DLL 复制到输出目录
+      - false：只编译时引用，不复制到输出目录
+      
+      为什么设置为 false？
+      1. 版权问题：RimWorld 的 DLL 是受版权保护的，不能随模组分发
+      2. 游戏已包含这些 DLL，模组只需要引用它们
+      3. 避免文件冲突：如果复制了，可能会覆盖游戏原本的 DLL 导致问题
+      
+      最终模组只需要发布自己编译的 PMM.MountainMoving.dll
+      玩家必须已经安装了 RimWorld，这些 DLL 自然存在
+    -->
+    
+    <!-- 
+      Assembly-CSharp.dll：RimWorld 的核心游戏逻辑
+      包含所有游戏类：Pawn、Thing、Building、Map 等
+      这是模组开发最常引用的 DLL
+    -->
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    
+    <!-- 
+      UnityEngine.dll：Unity 引擎的核心库
+      包含 Transform、GameObject、Application 等基础类
+      是 Unity 游戏的基石
+    -->
+    <Reference Include="UnityEngine">
+      <HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    
+    <!-- 
+      UnityEngine.CoreModule.dll：Unity 核心模块
+      包含 GameObject、Component、Object 等
+      这是 UnityEngine.dll 的分解模块之一（Unity 2017+ 开始拆分）
+      一些基础 API 在这里
+    -->
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    
+    <!-- 
+      UnityEngine.IMGUIModule.dll：Unity 即时模式 GUI 系统
+      负责 OnGUI 相关的 UI 绘制
+      RimWorld 使用了 IMGUI 作为其 UI 系统（不是 UGUI）
+      因此模组开发 UI 时需要引用此 DLL
+    -->
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    
+    <!-- 
+      注意：这只是最基本的引用列表
+      实际模组开发可能还需要引用：
+      - UnityEngine.UI.dll（如果使用 UGUI）
+      - HugsLib.dll（如果使用 HugsLib 框架）
+      - 其他模组的 DLL（如果互相依赖）
+      
+      这些都需要额外添加 Reference 标签
+    -->
+    
+  </ItemGroup>
+
+  <!-- 
+    项目文件到此结束
+    总结一下整个文件的作用：
+    
+    1. 告诉编译器：用 .NET Framework 4.7.2，C# 7.3
+    2. 定义了 RimWorldPath 变量来定位游戏
+    3. 通过 NuGet 获取参考程序集（方便没有 SDK 的环境）
+    4. 引用 RimWorld 的游戏 DLL（只引用，不复制）
+    
+    一个 .cs 源文件 + 这个 .csproj 文件 + RimWorld 游戏 = 编译成功
+    
+    常见问题排查：
+    - 如果编译报错找不到 DLL，检查 RimWorldPath 是否正确
+    - 如果编译报错找不到 ReferenceAssemblies，检查网络连接
+    - 如果编译成功但游戏里不生效，检查 DLL 是否放到了正确的模组目录
+  -->
+  
+</Project> -->
