@@ -22,8 +22,10 @@ namespace PMM.MountainMoving
             soundSucceeded = SoundDefOf.Designate_Mine;
         }
 
-        // RimWorld 1.5+ 移除了 DraggableDimensions，Designator_Cells 默认支持 2D 拖拽
-        // 不需要 override DraggableDimensions
+        // Bug 3 修复：Designator 基类的 DraggableDimensions 默认返回 None（不框选），
+        // Designator_Cells 并不会自动支持 2D 拖拽。必须像原版 Designator_Mine /
+        // Designator_RemoveRoof 一样显式 override 成 Rectangle，才能矩形拖拽框选多格。
+        public override DraggableDimensions DraggableDimensions => DraggableDimensions.Rectangle;
 
         public override bool DragDrawMeasurements => true;
 
@@ -33,8 +35,8 @@ namespace PMM.MountainMoving
                 return false;
 
             RoofDef roof = Map.roofGrid.RoofAt(c);
-            if (roof == null || !roof.isThickRoof)
-                return false; // 只针对厚岩顶
+            if (!RoofFilter.IsRemovableRoof(roof))
+                return false; // 只针对设置里允许移除的岩顶
 
             // 已指派过的格子不重复指派
             if (Map.designationManager.DesignationAt(c, PMM_DefOf.PMM_RemoveThickRoof) != null)

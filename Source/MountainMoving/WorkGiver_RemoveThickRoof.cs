@@ -30,7 +30,7 @@ namespace PMM.MountainMoving
                 return false;
 
             RoofDef roof = pawn.Map.roofGrid.RoofAt(c);
-            if (roof == null || !roof.isThickRoof)
+            if (!RoofFilter.IsRemovableRoof(roof))
                 return false; // 已被移除（可能被其他人/其他方式干掉）
 
             if (!pawn.CanReserve(c, 1, -1, null, forced))

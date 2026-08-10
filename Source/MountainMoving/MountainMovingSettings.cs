@@ -14,6 +14,13 @@ namespace PMM.MountainMoving
         public float workAmount = DefaultWorkAmount;
         public bool notifyOnComplete = false;
 
+        // "移除岩顶"指令允许拆除哪些屋顶（Bug 2：原先硬编码只认厚岩顶）。
+        // 厚岩顶(overhead mountain)默认开；薄岩顶默认开（用户要"别的岩顶"）；
+        // 建造屋顶默认关，避免误拆玩家自建屋顶。
+        public bool removeThickRoof = true;
+        public bool removeThinRoof = true;
+        public bool removeConstructedRoof = false;
+
         public void DoWindowContents(Rect inRect)
         {
             Listing_Standard l = new Listing_Standard();
@@ -29,6 +36,11 @@ namespace PMM.MountainMoving
             l.Gap();
             l.CheckboxLabeled("PMM_Setting_Notify".Translate(), ref notifyOnComplete);
 
+            l.Gap();
+            l.CheckboxLabeled("PMM_Setting_RemoveThickRoof".Translate(), ref removeThickRoof);
+            l.CheckboxLabeled("PMM_Setting_RemoveThinRoof".Translate(), ref removeThinRoof);
+            l.CheckboxLabeled("PMM_Setting_RemoveConstructedRoof".Translate(), ref removeConstructedRoof);
+
             l.End();
         }
 
@@ -37,6 +49,9 @@ namespace PMM.MountainMoving
             base.ExposeData();
             Scribe_Values.Look(ref workAmount, "workAmount", DefaultWorkAmount);
             Scribe_Values.Look(ref notifyOnComplete, "notifyOnComplete", false);
+            Scribe_Values.Look(ref removeThickRoof, "removeThickRoof", true);
+            Scribe_Values.Look(ref removeThinRoof, "removeThinRoof", true);
+            Scribe_Values.Look(ref removeConstructedRoof, "removeConstructedRoof", false);
         }
     }
 }

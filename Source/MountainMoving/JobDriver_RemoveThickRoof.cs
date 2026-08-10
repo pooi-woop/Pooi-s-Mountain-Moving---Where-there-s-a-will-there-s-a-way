@@ -34,7 +34,7 @@ namespace PMM.MountainMoving
             {
                 IntVec3 cell = TargetLocA;
                 RoofDef roof = Map.roofGrid.RoofAt(cell);
-                if (roof == null || !roof.isThickRoof)
+                if (!RoofFilter.IsRemovableRoof(roof))
                     return true;
                 return Map.designationManager.DesignationAt(cell, PMM_DefOf.PMM_RemoveThickRoof) == null;
             });
@@ -80,9 +80,9 @@ namespace PMM.MountainMoving
             if (done < MountainMovingMod.WorkAmount)
                 return;
 
-            // ---- 完成：移除厚岩顶 ----
+            // ---- 完成：移除岩顶 ----
             RoofDef roof = map.roofGrid.RoofAt(cell);
-            if (roof != null && roof.isThickRoof)
+            if (RoofFilter.IsRemovableRoof(roof))
                 map.roofGrid.SetRoof(cell, null); // SetRoof 会负责光照/区域/屋顶贴图刷新
 
             comp.ClearProgress(cell);

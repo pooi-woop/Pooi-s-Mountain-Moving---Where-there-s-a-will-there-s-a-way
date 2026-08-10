@@ -9,4 +9,8 @@
   <PMM_Setting_WorkAmount>每格岩顶工作量：{0} tick（速度 1.0 时约 {1} 个游戏日）</PMM_Setting_WorkAmount>
   <PMM_Setting_Notify>移除完成时发送提示</PMM_Setting_Notify>
 
+  <PMM_Setting_RemoveThickRoof>允许移除厚岩顶（山体头顶）</PMM_Setting_RemoveThickRoof>
+  <PMM_Setting_RemoveThinRoof>允许移除薄岩顶</PMM_Setting_RemoveThinRoof>
+  <PMM_Setting_RemoveConstructedRoof>允许移除建造屋顶（注意：会拆到玩家自建的屋顶）</PMM_Setting_RemoveConstructedRoof>
+
 </LanguageData>

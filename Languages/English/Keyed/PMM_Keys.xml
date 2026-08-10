@@ -9,4 +9,8 @@
   <PMM_Setting_WorkAmount>Work per roof tile: {0} ticks (~{1} in-game days at speed 1.0)</PMM_Setting_WorkAmount>
   <PMM_Setting_Notify>Notify when a thick roof is removed</PMM_Setting_Notify>
 
+  <PMM_Setting_RemoveThickRoof>Allow removing thick rock roofs (overhead mountain)</PMM_Setting_RemoveThickRoof>
+  <PMM_Setting_RemoveThinRoof>Allow removing thin rock roofs</PMM_Setting_RemoveThinRoof>
+  <PMM_Setting_RemoveConstructedRoof>Allow removing constructed roofs (warning: can tear down player-built roofs)</PMM_Setting_RemoveConstructedRoof>
+
 </LanguageData>

@@ -22,6 +22,16 @@ namespace PMM.MountainMoving
         public static bool NotifyOnComplete =>
             settings != null && settings.notifyOnComplete;
 
+        // 岩顶过滤开关（默认厚/薄岩顶开、建造屋顶关；设置未加载时按默认值兜底）。
+        public static bool RemoveThickRoof =>
+            settings == null || settings.removeThickRoof;
+
+        public static bool RemoveThinRoof =>
+            settings == null || settings.removeThinRoof;
+
+        public static bool RemoveConstructedRoof =>
+            settings != null && settings.removeConstructedRoof;
+
         public override void DoSettingsWindowContents(Rect inRect)
         {
             settings.DoWindowContents(inRect);

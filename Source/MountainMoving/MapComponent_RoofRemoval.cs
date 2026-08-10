@@ -71,7 +71,7 @@ namespace PMM.MountainMoving
                 {
                     IntVec3 cell = map.cellIndices.IndexToCell(kv.Key);
                     RoofDef roof = map.roofGrid.RoofAt(cell);
-                    if (roof == null || !roof.isThickRoof ||
+                    if (!RoofFilter.IsRemovableRoof(roof) ||
                         map.designationManager.DesignationAt(cell, PMM_DefOf.PMM_RemoveThickRoof) == null)
                     {
                         staleCells.Add(kv.Key);
@@ -89,7 +89,7 @@ namespace PMM.MountainMoving
                 if (allDes[i].def == PMM_DefOf.PMM_RemoveThickRoof)
                 {
                     RoofDef roof = map.roofGrid.RoofAt(allDes[i].target.Cell);
-                    if (roof == null || !roof.isThickRoof)
+                    if (!RoofFilter.IsRemovableRoof(roof))
                         staleDesignations.Add(allDes[i]);
                 }
             }
